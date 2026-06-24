@@ -2,3 +2,12 @@ todo:
 uhh idk
 wallpaper?
 taskbar
+
+
+ disable selecting text while moving window, or just disable selecting title bars
+  add limits for window movement so no horizontal scrollbar appears
+ add resizing
+ taskbar icons
+ seperatetaskbar + launcher
+different windows types (modal, toolbar, normal)
+wallpaper

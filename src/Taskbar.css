@@ -1,5 +1,14 @@
 #taskbar {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
+  background-color: #000000;
+}
+
+#taskbar button {
+  background-color: #7FFFD4;
+  width: 60px;
+  height: 60px;
+  border: none;
 }
