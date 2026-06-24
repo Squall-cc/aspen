@@ -1,6 +1,6 @@
 
 import './Window.css';
-import type { Component } from "solid-js";
+import type { ParentComponent } from "solid-js";
 import { createSignal } from "solid-js";
 
 interface WindowProps {
@@ -9,7 +9,7 @@ interface WindowProps {
 }
 
 
-const Window: Component<WindowProps> = (props) => {
+const Window: ParentComponent<WindowProps> = (props) => {
 
 const [offsetX, setoffsetX] = createSignal(0);
 const [offsetY, setoffsetY] = createSignal(0);
@@ -37,9 +37,7 @@ let windowthingy!: HTMLDivElement; // typescript extension wont stfu
           </svg>
         </button>
         </div>
-        <p>move</p>
-        <p>this</p>
-        <p>window</p>
+        {props.children}
         </div>
     </>;
     function move(asdasdasdcfsfgsad: MouseEvent) { 
