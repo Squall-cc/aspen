@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+}
+
+#wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url(./wallpaper.png) center / cover no-repeat;
+}

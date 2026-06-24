@@ -15,6 +15,11 @@ const [offsetX, setoffsetX] = createSignal(0);
 const [offsetY, setoffsetY] = createSignal(0);
 let windowthingy!: HTMLDivElement; // typescript extension wont stfu
 
+let rszisestartX = 0;
+let rszisestarty = 0;
+let startwidth = 0;
+let startheight = 0;
+
 
     return <>
         <div id="window" ref={windowthingy}>
@@ -23,6 +28,7 @@ let windowthingy!: HTMLDivElement; // typescript extension wont stfu
         onMouseDown={(e)=> {
           setoffsetX(e.clientX - windowthingy.offsetLeft) 
           setoffsetY(e.clientY - windowthingy.offsetTop)
+          document.body.style.userSelect = "none"
           document.addEventListener("mouseup", up)
           document.addEventListener("mousemove", move)
           //windowthingy.style.left = (e.clientX-offsetX())+"px";
@@ -38,17 +44,43 @@ let windowthingy!: HTMLDivElement; // typescript extension wont stfu
         </button>
         </div>
         {props.children}
+        <div
+        id="resizehandle"
+        onMouseDown={(e) => {
+          rszisestartX = e.clientX;
+          rszisestarty = e.clientY;
+          startwidth = windowthingy.offsetWidth;
+          startheight = windowthingy.offsetHeight;
+          document.body.style.userSelect = "none"
+          document.addEventListener("mouseup", resizeUp)
+          document.addEventListener("mousemove", resize)
+        }}
+        />
         </div>
     </>;
-    function move(asdasdasdcfsfgsad: MouseEvent) { 
-  windowthingy.style.top = (asdasdasdcfsfgsad.clientY-offsetY())+"px";
-    windowthingy.style.left = (asdasdasdcfsfgsad.clientX - offsetX()) + "px";
+    function move(asdasdasdcfsfgsad: MouseEvent) {
+  const max2 = window.innerWidth - windowthingy.offsetWidth;
+  const max1 = window.innerHeight - windowthingy.offsetHeight;
+  windowthingy.style.top = Math.min(max1, Math.max(0, asdasdasdcfsfgsad.clientY - offsetY())) + "px";
+  windowthingy.style.left = Math.min(max2, Math.max(0, asdasdasdcfsfgsad.clientX - offsetX())) + "px";
 
 }
 
 function up() {
   document.removeEventListener("mouseup", up);
+  document.body.style.userSelect = ""
   document.removeEventListener("mousemove", move);
+}
+
+function resize(e: MouseEvent) {
+  windowthingy.style.width = Math.max(100, startwidth + (e.clientX - rszisestartX)) + "px";
+  windowthingy.style.height = Math.max(100, startheight + (e.clientY - rszisestarty)) + "px";
+}
+
+function resizeUp() {
+  document.removeEventListener("mouseup", resizeUp);
+  document.body.style.userSelect = ""
+  document.removeEventListener("mousemove", resize);
 }
 };
 
