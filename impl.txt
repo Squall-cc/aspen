@@ -10,4 +10,8 @@ taskbar
  taskbar icons (way later)
  seperatetaskbar + launcher
 different windows types (modal, toolbar, normal)
-wallpaper
+wallpaper*S*
+
+api:
+resizing from function
+making actual uuids for each window that api can expose and use
