@@ -3,7 +3,8 @@ import { createStore } from "solid-js/store";
 interface WindowData {
   id: symbol;
   text: string;
-  z: number;
+  z: number; // z index
+  minimized: boolean;
 }
 
 let topZ = 9;
@@ -13,6 +14,7 @@ const [windows, setWindows] = createStore<WindowData[]>([]);
 
 export { windows };
 export type { WindowData };
-export const spawn = (text: string = "welcome") => setWindows(windows.length, { id: Symbol(), text, z: ++topZ });
+export const spawn = (text: string = "welcome") => setWindows(windows.length, { id: Symbol(), text, z: ++topZ, minimized: false });
 export const closeWindow = (id: symbol) => setWindows(windows.filter(w => w.id !== id));
-export const bringupwards = (id: symbol) => setWindows(w => w.id === id, "z", ++topZ);
+export const bringupwards = (id: symbol) => setWindows(w => w.id === id, { z: ++topZ, minimized: false });
+export const minimize = (id: symbol) => setWindows(w => w.id === id, "minimized", true);
