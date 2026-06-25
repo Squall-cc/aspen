@@ -8,9 +8,9 @@ const App: Component = () => {
   return (
     <>
       <div id="wallpaper" />
-      <For each={windows()}>
+      <For each={windows}>
         {(w) => (
-          <Window title={w.text} onclose={() => closeWindow(w.id)}>
+          <Window title={w.text} zIndex={w.z} onclose={() => closeWindow(w.id)}>
             {w.text === "hi" ? <iframe src="https://example.com" /> : <p>{w.text}</p>}
           </Window>
         )}

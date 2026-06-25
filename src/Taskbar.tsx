@@ -1,13 +1,24 @@
 import './Taskbar.css';
 import type { Component } from "solid-js";
-import { spawn } from './windowhelpers';
+import { createSignal, For, Show } from "solid-js";
+import { windows, bringupwards } from './windowhelpers';
+import Launcher from './Launcher';
 
 const Taskbar: Component = () => {
+  const [launcherOpen, setLauncherOpen] = createSignal(false);
+
   return (
-    <div id="taskbar">
-      <button onClick={() => spawn("hi")}>hi</button>
-      <button onClick={() => spawn("hello")}>hello</button>
-    </div>
+    <>
+      <Show when={launcherOpen()}>
+        <Launcher />
+      </Show>
+      <div id="taskbar">
+        <button onClick={() => setLauncherOpen(!launcherOpen())}>apps</button>
+        <For each={windows}>
+          {(w) => <button onClick={() => bringupwards(w.id)}>{w.text}</button>}
+        </For>
+      </div>
+    </>
   );
 };
 

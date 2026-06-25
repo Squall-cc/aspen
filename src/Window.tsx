@@ -5,6 +5,7 @@ import { createSignal, onMount } from "solid-js";
 
 interface WindowProps {
   title: string;
+  zIndex: number;
   onclose?: () => void; // react style names are dumb, all my homies adore html
 }
 
@@ -26,7 +27,7 @@ onMount(() => {
 });
 
     return <>
-        <div id="window" ref={windowthingy}>
+        <div id="window" ref={windowthingy} style={{ "z-index": props.zIndex }}>
         <div 
 
         onMouseDown={(e)=> {
