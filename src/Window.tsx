@@ -1,7 +1,7 @@
 
 import './Window.css';
 import type { ParentComponent } from "solid-js";
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 
 interface WindowProps {
   title: string;
@@ -20,6 +20,10 @@ let rszisestarty = 0;
 let startwidth = 0;
 let startheight = 0;
 
+onMount(() => {
+  windowthingy.style.left = (window.innerWidth - windowthingy.offsetWidth) / 2 + "px";
+  windowthingy.style.top = (window.innerHeight - windowthingy.offsetHeight) / 2 + "px";
+});
 
     return <>
         <div id="window" ref={windowthingy}>

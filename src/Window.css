@@ -1,8 +1,11 @@
 #window {
   position: absolute;
   z-index: 9;
-  background-color: #f1f1f1;
-  border: 1px solid #d3d3d3;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--window-bg);
+  border: 1px solid var(--window-border);
   text-align: center;
 }
 
@@ -10,10 +13,19 @@
   padding: 10px;
   cursor: move;
   z-index: 10;
-  background-color: #2196F3;
-  color: #fff;
+  background-color: var(--header-bg);
+  color: var(--header-fg);
   display: flex;
   justify-content: space-between;
+  flex-shrink: 0;
+}
+
+#window iframe {
+  flex: 1;
+  width: 100%;
+  min-height: 150px;
+  border: none;
+  box-sizing: border-box;
 }
 
 #resizehandle {
@@ -23,5 +35,5 @@
   width: 12px;
   height: 12px;
   cursor: nwse-resize;
-  background-color: #d3d3d3;
+  background-color: var(--resize-handle-bg);
 }

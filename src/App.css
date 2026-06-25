@@ -1,3 +1,13 @@
+:root {
+  --window-bg: #f1f1f1;
+  --window-border: #d3d3d3;
+  --header-bg: #2196F3;
+  --header-fg: #ffffff;
+  --resize-handle-bg: #d3d3d3;
+  --taskbar-bg: #000000;
+  --button-bg: #7FFFD4;
+}
+
 body {
   margin: 0;
 }

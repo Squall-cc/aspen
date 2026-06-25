@@ -11,7 +11,7 @@ const App: Component = () => {
       <For each={windows()}>
         {(w) => (
           <Window title={w.text} onclose={() => closeWindow(w.id)}>
-            <p>{w.text}</p>
+            {w.text === "hi" ? <iframe src="https://example.com" /> : <p>{w.text}</p>}
           </Window>
         )}
       </For>
