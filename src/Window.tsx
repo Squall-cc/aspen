@@ -8,6 +8,7 @@ interface WindowProps {
   zIndex: number;
   onclose?: () => void; // react style names are dumb, all my homies adore html
   onminimize?: () => void;
+  onfocus?: () => void;
 }
 
 
@@ -32,7 +33,8 @@ onMount(() => {
         <div 
 
         onMouseDown={(e)=> {
-          setoffsetX(e.clientX - windowthingy.offsetLeft) 
+          props.onfocus?.()
+          setoffsetX(e.clientX - windowthingy.offsetLeft)
           setoffsetY(e.clientY - windowthingy.offsetTop)
           document.body.style.userSelect = "none"
           document.addEventListener("mouseup", up)

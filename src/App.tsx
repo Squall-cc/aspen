@@ -2,7 +2,7 @@ import { For, Show, onMount, type Component } from 'solid-js';
 import './App.css';
 import Window from './Window';
 import Taskbar from './Taskbar';
-import { windows, closeWindow, minimize, debug123 } from './windowhelpers';
+import { windows, closeWindow, minimize, bringupwards, debug123 } from './windowhelpers';
 import { setOverlayContext } from './overlay';
 
 const App: Component = () => {
@@ -21,7 +21,7 @@ const App: Component = () => {
       <For each={windows}>
         {(w) => (
           <Show when={!w.minimized}>
-            <Window title={w.text} zIndex={w.z} onclose={() => closeWindow(w.id)} onminimize={() => minimize(w.id)}>
+            <Window title={w.text} zIndex={w.z} onclose={() => closeWindow(w.id)} onminimize={() => minimize(w.id)} onfocus={() => bringupwards(w.id)}>
               {w.content}
             </Window>
           </Show>
