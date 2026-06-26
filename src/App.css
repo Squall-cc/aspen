@@ -18,3 +18,10 @@ body {
   z-index: -1;
   background: url(./wallpaper.png) center / cover no-repeat;
 }
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: none;
+}

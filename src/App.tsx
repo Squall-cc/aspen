@@ -1,18 +1,28 @@
-import { For, Show, type Component } from 'solid-js';
+import { For, Show, onMount, type Component } from 'solid-js';
 import './App.css';
 import Window from './Window';
 import Taskbar from './Taskbar';
 import { windows, closeWindow, minimize, debug123 } from './windowhelpers';
+import { setOverlayContext } from './overlay';
 
 const App: Component = () => {
+  let overlay!: HTMLCanvasElement;
+
+  onMount(() => {
+    overlay.width = window.innerWidth;
+    overlay.height = window.innerHeight;
+    setOverlayContext(overlay.getContext("2d")!);
+  });
+
   return (
     <>
       <div id="wallpaper" />
+      <canvas id="overlay" ref={overlay} />
       <For each={windows}>
         {(w) => (
           <Show when={!w.minimized}>
             <Window title={w.text} zIndex={w.z} onclose={() => closeWindow(w.id)} onminimize={() => minimize(w.id)}>
-              {w.text === "hi" ? <iframe src="https://example.com" /> : <p>{w.text}</p>}
+              {w.content ?? (w.text === "hi" ? <iframe src="https://example.com" /> : <p>{w.text}</p>)}
             </Window>
           </Show>
         )}
