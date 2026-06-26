@@ -3,9 +3,16 @@ getTitleByUUID
 setContent
 setContentByUUID
 getContentByUUID
-setOverlayContext
-draw
+setOverlayContext - overlay
+draw - overlay
 spawn
 minimize
 closeWindow
 bringUpwards
+drawToWindow - overlay
+drawToWindowByUUID - overlay
+
+
+variables to import:
+windows (almost everything except setOverlayContext and draw)
+canvasmap 

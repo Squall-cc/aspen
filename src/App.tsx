@@ -22,7 +22,7 @@ const App: Component = () => {
         {(w) => (
           <Show when={!w.minimized}>
             <Window title={w.text} zIndex={w.z} onclose={() => closeWindow(w.id)} onminimize={() => minimize(w.id)}>
-              {w.content ?? (w.text === "hi" ? <iframe src="https://example.com" /> : <p>{w.text}</p>)}
+              {w.content}
             </Window>
           </Show>
         )}
