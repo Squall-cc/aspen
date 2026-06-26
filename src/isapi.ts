@@ -1,4 +1,3 @@
-//todo: abstract more with classes so hwnd.dimesnsions() is posssible instead of functions
 import type { JSX } from "solid-js";
 import {
   windows,
