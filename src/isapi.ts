@@ -8,15 +8,15 @@ import {
   setContent,
   getDimensions,
   setDimensions,
-  getSymbolByHwnd,
+  getSymbolByHWnd,
 } from "./windowhelpers";
 import { drawToWindow } from "./overlay";
 
 export class WindowHandle {
   constructor(private hwnd: symbol) {}
 
-  static fromHwnd(hwnd: string): WindowHandle | undefined {
-    const sym = getSymbolByHwnd(hwnd);
+  static fromHWnd(hwnd: string): WindowHandle | undefined {
+    const sym = getSymbolByHWnd(hwnd);
     return sym ? new WindowHandle(sym) : undefined;
   }
 

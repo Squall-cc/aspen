@@ -37,8 +37,8 @@ export function getDimensions(hwnd: symbol) {
   return { width: el.offsetWidth, height: el.offsetHeight };
 }
 
-export function getDimensionsByHwnd(hwnd: string) {
-  let sym = getSymbolByHwnd(hwnd);
+export function getDimensionsByHWnd(hwnd: string) {
+  let sym = getSymbolByHWnd(hwnd);
   if (!sym) return undefined;
   return getDimensions(sym);
 }
@@ -50,8 +50,8 @@ export function setDimensions(hwnd: symbol, dimensions: { width: number; height:
   el.style.height = dimensions.height + "px";
 }
 
-export function setDimensionsByHwnd(hwnd: string, dimensions: { width: number; height: number }) {
-  let sym = getSymbolByHwnd(hwnd);
+export function setDimensionsByHWnd(hwnd: string, dimensions: { width: number; height: number }) {
+  let sym = getSymbolByHWnd(hwnd);
   if (sym) setDimensions(sym, dimensions);
 }
 export const bringupwards = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, { z: ++topZ, minimized: false });
@@ -65,14 +65,14 @@ export function spawn(title: string = "window", run?: (hwnd: symbol) => void) {
 
 export const debug123 = () => setInterval(()=>console.log("windows :" + windows+"; body:" + document.body), 1000)
 
-export function getSymbolByHwnd(hwnd: string) {
+export function getSymbolByHWnd(hwnd: string) {
   let s = [...windowsmap]
   let y = s.find(([, u]) => u === hwnd)
   return y?.[0];
 }
 
-export function getTitleByHwnd(hwnd: string) {
-  let sym = getSymbolByHwnd(hwnd);
+export function getTitleByHWnd(hwnd: string) {
+  let sym = getSymbolByHWnd(hwnd);
   if (!sym) return undefined;
   return windows.find(w => w.hwnd === sym)?.title;
 }
@@ -81,13 +81,13 @@ export function setContent(hwnd: symbol, content: JSX.Element) {
   setWindows(w => w.hwnd === hwnd, "content", content);
 }
 
-export function setContentByHwnd(hwnd: string, content: JSX.Element) {
-  let sym = getSymbolByHwnd(hwnd);
+export function setContentByHWnd(hwnd: string, content: JSX.Element) {
+  let sym = getSymbolByHWnd(hwnd);
   if (sym) setContent(sym, content);
 }
 
-export function getContentByHwnd(hwnd: string) {
-  let sym = getSymbolByHwnd(hwnd);
+export function getContentByHWnd(hwnd: string) {
+  let sym = getSymbolByHWnd(hwnd);
   if (!sym) return undefined;
   return windows.find(w => w.hwnd === sym)?.content;
 }
