@@ -1,4 +1,4 @@
-import { setContent, getSymbolByUUID } from "./windowhelpers";
+import { setContent, getSymbolByHwnd } from "./windowhelpers";
 
 let ctx: CanvasRenderingContext2D | null = null;
 
@@ -24,8 +24,8 @@ export function drawToWindow(id: symbol, fn: (ctx: CanvasRenderingContext2D) => 
   fn(canvas.getContext("2d")!);
 }
 
-export function drawToWindowByUUID(uuid: string, fn: (ctx: CanvasRenderingContext2D) => void) {
-  let id = getSymbolByUUID(uuid);
+export function drawToWindowByHwnd(hwnd: string, fn: (ctx: CanvasRenderingContext2D) => void) {
+  let id = getSymbolByHwnd(hwnd);
   if (id) drawToWindow(id, fn);
 }
 

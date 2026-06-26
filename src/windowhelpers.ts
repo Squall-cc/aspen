@@ -37,10 +37,10 @@ export function getDimensions(hwnd: symbol) {
   return { width: el.offsetWidth, height: el.offsetHeight };
 }
 
-export function getDimensionsByUUID(uuid: string) {
-  let hwnd = getSymbolByUUID(uuid);
-  if (!hwnd) return undefined;
-  return getDimensions(hwnd);
+export function getDimensionsByHwnd(hwnd: string) {
+  let sym = getSymbolByHwnd(hwnd);
+  if (!sym) return undefined;
+  return getDimensions(sym);
 }
 
 export function setDimensions(hwnd: symbol, dimensions: { width: number; height: number }) {
@@ -50,9 +50,9 @@ export function setDimensions(hwnd: symbol, dimensions: { width: number; height:
   el.style.height = dimensions.height + "px";
 }
 
-export function setDimensionsByUUID(uuid: string, dimensions: { width: number; height: number }) {
-  let hwnd = getSymbolByUUID(uuid);
-  if (hwnd) setDimensions(hwnd, dimensions);
+export function setDimensionsByHwnd(hwnd: string, dimensions: { width: number; height: number }) {
+  let sym = getSymbolByHwnd(hwnd);
+  if (sym) setDimensions(sym, dimensions);
 }
 export const bringupwards = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, { z: ++topZ, minimized: false });
 export const minimize = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, "minimized", true);
@@ -65,29 +65,29 @@ export function spawn(title: string = "window", run?: (hwnd: symbol) => void) {
 
 export const debug123 = () => setInterval(()=>console.log("windows :" + windows+"; body:" + document.body), 1000)
 
-export function getSymbolByUUID(x: string) {
+export function getSymbolByHwnd(hwnd: string) {
   let s = [...windowsmap]
-  let y = s.find(([, u]) => u === x)
+  let y = s.find(([, u]) => u === hwnd)
   return y?.[0];
 }
 
-export function getTitleByUUID(x: string) {
-  let hwnd = getSymbolByUUID(x);
-  if (!hwnd) return undefined;
-  return windows.find(w => w.hwnd === hwnd)?.title;
+export function getTitleByHwnd(hwnd: string) {
+  let sym = getSymbolByHwnd(hwnd);
+  if (!sym) return undefined;
+  return windows.find(w => w.hwnd === sym)?.title;
 }
 
 export function setContent(hwnd: symbol, content: JSX.Element) {
   setWindows(w => w.hwnd === hwnd, "content", content);
 }
 
-export function setContentByUUID(uuid: string, content: JSX.Element) {
-  let hwnd = getSymbolByUUID(uuid);
-  if (hwnd) setContent(hwnd, content);
+export function setContentByHwnd(hwnd: string, content: JSX.Element) {
+  let sym = getSymbolByHwnd(hwnd);
+  if (sym) setContent(sym, content);
 }
 
-export function getContentByUUID(uuid: string) {
-  let hwnd = getSymbolByUUID(uuid);
-  if (!hwnd) return undefined;
-  return windows.find(w => w.hwnd === hwnd)?.content;
+export function getContentByHwnd(hwnd: string) {
+  let sym = getSymbolByHwnd(hwnd);
+  if (!sym) return undefined;
+  return windows.find(w => w.hwnd === sym)?.content;
 }

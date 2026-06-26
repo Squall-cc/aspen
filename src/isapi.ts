@@ -8,16 +8,16 @@ import {
   setContent,
   getDimensions,
   setDimensions,
-  getSymbolByUUID,
+  getSymbolByHwnd,
 } from "./windowhelpers";
 import { drawToWindow } from "./overlay";
 
 export class WindowHandle {
   constructor(private hwnd: symbol) {}
 
-  static fromUUID(uuid: string): WindowHandle | undefined {
-    const hwnd = getSymbolByUUID(uuid);
-    return hwnd ? new WindowHandle(hwnd) : undefined;
+  static fromHwnd(hwnd: string): WindowHandle | undefined {
+    const sym = getSymbolByHwnd(hwnd);
+    return sym ? new WindowHandle(sym) : undefined;
   }
 
   close() {
