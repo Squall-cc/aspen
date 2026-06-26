@@ -15,3 +15,7 @@ wallpaper*S*
 api:
 resizing from function
 making actual uuids for each window that api can expose and use
+
+
+ok so for grabbing windows i need to:
+find out how tf i can get window titles (line 45 in src/window.tsx)

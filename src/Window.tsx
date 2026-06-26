@@ -42,8 +42,8 @@ onMount(() => {
         }}
 
 
-        id="windowheader">{props.title}
-        <div id="windowcontrols">
+        id="windowheader">{props.title} 
+        <div id="windowcontrols"> 
         <button onClick={() => props.onminimize?.()}>_</button>
         <button onClick={() => props.onclose?.()}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="12" height="16">

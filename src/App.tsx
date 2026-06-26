@@ -2,7 +2,7 @@ import { For, Show, type Component } from 'solid-js';
 import './App.css';
 import Window from './Window';
 import Taskbar from './Taskbar';
-import { windows, closeWindow, minimize } from './windowhelpers';
+import { windows, closeWindow, minimize, debug123 } from './windowhelpers';
 
 const App: Component = () => {
   return (
@@ -21,5 +21,5 @@ const App: Component = () => {
     </>
   );
 };
-
+debug123();
 export default App;
