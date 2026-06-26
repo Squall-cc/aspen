@@ -1,0 +1,11 @@
+getSymbolByUUID
+getTitleByUUID
+setContent
+setContentByUUID
+getContentByUUID
+setOverlayContext
+draw
+spawn
+minimize
+closeWindow
+bringUpwards

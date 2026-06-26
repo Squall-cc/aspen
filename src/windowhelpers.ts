@@ -49,3 +49,9 @@ export function setContentByUUID(uuid: string, content: JSX.Element) {
   let id = getSymbolByUUID(uuid);
   if (id) setContent(id, content);
 }
+
+export function getContentByUUID(uuid: string) {
+  let id = getSymbolByUUID(uuid);
+  if (!id) return undefined;
+  return windows.find(w => w.id === id)?.content;
+}
