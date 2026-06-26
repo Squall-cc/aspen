@@ -3,8 +3,8 @@ import type { JSX } from "solid-js";
 import { clearWindowCanvas } from "./overlay";
 
 interface WindowData {
-  id: symbol;
-  text: string;
+  hwnd: symbol;
+  title: string;
   z: number; // z index
   minimized: boolean;
   content?: JSX.Element;
@@ -20,15 +20,15 @@ const [windows, setWindows] = createStore<WindowData[]>([]);
 export { windows };
 export type { WindowData };
 export function closeWindow(id: symbol) {
-  setWindows(windows.filter(w => w.id !== id));
+  setWindows(windows.filter(w => w.hwnd !== id));
   windowsmap.delete(id);
   clearWindowCanvas(id);
 }
-export const bringupwards = (id: symbol) => setWindows(w => w.id === id, { z: ++topZ, minimized: false });
-export const minimize = (id: symbol) => setWindows(w => w.id === id, "minimized", true);
+export const bringupwards = (id: symbol) => setWindows(w => w.hwnd === id, { z: ++topZ, minimized: false });
+export const minimize = (id: symbol) => setWindows(w => w.hwnd === id, "minimized", true);
 export function spawn(text: string = "window", run?: (id: symbol) => void) { // text is title btw
   var s = Symbol()
-  setWindows(windows.length, { id: s, text, z: ++topZ, minimized: false })
+  setWindows(windows.length, { hwnd: s, title: text, z: ++topZ, minimized: false })
   windowsmap.set(s, crypto.randomUUID())
   run?.(s)
 }
@@ -44,11 +44,11 @@ export function getSymbolByUUID(x: string) {
 export function getTitleByUUID(x: string) {
   let id = getSymbolByUUID(x);
   if (!id) return undefined;
-  return windows.find(w => w.id === id)?.text;
+  return windows.find(w => w.hwnd === id)?.title;
 }
 
 export function setContent(id: symbol, content: JSX.Element) {
-  setWindows(w => w.id === id, "content", content);
+  setWindows(w => w.hwnd === id, "content", content);
 }
 
 export function setContentByUUID(uuid: string, content: JSX.Element) {
@@ -59,5 +59,5 @@ export function setContentByUUID(uuid: string, content: JSX.Element) {
 export function getContentByUUID(uuid: string) {
   let id = getSymbolByUUID(uuid);
   if (!id) return undefined;
-  return windows.find(w => w.id === id)?.content;
+  return windows.find(w => w.hwnd === id)?.content;
 }

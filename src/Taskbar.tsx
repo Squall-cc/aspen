@@ -15,7 +15,7 @@ const Taskbar: Component = () => {
       <div id="taskbar">
         <button onClick={() => setLauncherOpen(!launcherOpen())}>apps</button>
         <For each={windows}>
-          {(w) => <button onClick={() => bringupwards(w.id)}>{w.text}</button>}
+          {(w) => <button onClick={() => bringupwards(w.hwnd)}>{w.title}</button>}
         </For>
       </div>
     </>
