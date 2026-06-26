@@ -19,16 +19,16 @@ const [windows, setWindows] = createStore<WindowData[]>([]);
 
 export { windows };
 export type { WindowData };
-export function closeWindow(id: symbol) {
-  setWindows(windows.filter(w => w.hwnd !== id));
-  windowsmap.delete(id);
-  clearWindowCanvas(id);
+export function closeWindow(hwnd: symbol) {
+  setWindows(windows.filter(w => w.hwnd !== hwnd));
+  windowsmap.delete(hwnd);
+  clearWindowCanvas(hwnd);
 }
-export const bringupwards = (id: symbol) => setWindows(w => w.hwnd === id, { z: ++topZ, minimized: false });
-export const minimize = (id: symbol) => setWindows(w => w.hwnd === id, "minimized", true);
-export function spawn(text: string = "window", run?: (id: symbol) => void) { // text is title btw
+export const bringupwards = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, { z: ++topZ, minimized: false });
+export const minimize = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, "minimized", true);
+export function spawn(title: string = "window", run?: (hwnd: symbol) => void) {
   var s = Symbol()
-  setWindows(windows.length, { hwnd: s, title: text, z: ++topZ, minimized: false })
+  setWindows(windows.length, { hwnd: s, title: title, z: ++topZ, minimized: false })
   windowsmap.set(s, crypto.randomUUID())
   run?.(s)
 }
@@ -42,22 +42,22 @@ export function getSymbolByUUID(x: string) {
 }
 
 export function getTitleByUUID(x: string) {
-  let id = getSymbolByUUID(x);
-  if (!id) return undefined;
-  return windows.find(w => w.hwnd === id)?.title;
+  let hwnd = getSymbolByUUID(x);
+  if (!hwnd) return undefined;
+  return windows.find(w => w.hwnd === hwnd)?.title;
 }
 
-export function setContent(id: symbol, content: JSX.Element) {
-  setWindows(w => w.hwnd === id, "content", content);
+export function setContent(hwnd: symbol, content: JSX.Element) {
+  setWindows(w => w.hwnd === hwnd, "content", content);
 }
 
 export function setContentByUUID(uuid: string, content: JSX.Element) {
-  let id = getSymbolByUUID(uuid);
-  if (id) setContent(id, content);
+  let hwnd = getSymbolByUUID(uuid);
+  if (hwnd) setContent(hwnd, content);
 }
 
 export function getContentByUUID(uuid: string) {
-  let id = getSymbolByUUID(uuid);
-  if (!id) return undefined;
-  return windows.find(w => w.hwnd === id)?.content;
+  let hwnd = getSymbolByUUID(uuid);
+  if (!hwnd) return undefined;
+  return windows.find(w => w.hwnd === hwnd)?.content;
 }
