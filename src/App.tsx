@@ -21,7 +21,7 @@ const App: Component = () => {
       <For each={windows}>
         {(w) => (
           <Show when={!w.minimized}>
-            <Window title={w.title} zIndex={w.z} onclose={() => closeWindow(w.hwnd)} onminimize={() => minimize(w.hwnd)} onfocus={() => bringupwards(w.hwnd)}>
+            <Window hwnd={w.hwnd} title={w.title} zIndex={w.z} onclose={() => closeWindow(w.hwnd)} onminimize={() => minimize(w.hwnd)} onfocus={() => bringupwards(w.hwnd)}>
               {w.content}
             </Window>
           </Show>

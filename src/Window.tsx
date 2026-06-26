@@ -2,8 +2,10 @@
 import './Window.css';
 import type { ParentComponent } from "solid-js";
 import { createSignal, onMount } from "solid-js";
+import { registerWindowElement } from "./windowhelpers";
 
 interface WindowProps {
+  hwnd: symbol;
   title: string;
   zIndex: number;
   onclose?: () => void; // react style names are dumb, all my homies adore html
@@ -26,6 +28,7 @@ let startheight = 0;
 onMount(() => {
   windowthingy.style.left = (window.innerWidth - windowthingy.offsetWidth) / 2 + "px";
   windowthingy.style.top = (window.innerHeight - windowthingy.offsetHeight) / 2 + "px";
+  registerWindowElement(props.hwnd, windowthingy);
 });
 
     return <>
