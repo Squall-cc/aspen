@@ -7,6 +7,10 @@ import {
   setContent,
   getDimensions,
   setDimensions,
+  getPosition,
+  setPosition,
+  setCenter,
+  getCorners,
   getSymbolByHWnd,
 } from "./windowhelpers";
 import { drawToWindow } from "./overlay";
@@ -49,6 +53,22 @@ export class WindowHandle {
 
   setDimensions(d: { width: number; height: number }) {
     setDimensions(this.hwnd, d);
+  }
+
+  position() {
+    return getPosition(this.hwnd);
+  }
+
+  setPosition(pos: { x: number; y: number }) {
+    setPosition(this.hwnd, pos);
+  }
+
+  setCenter(center: { x: number; y: number }) {
+    setCenter(this.hwnd, center);
+  }
+
+  corners() {
+    return getCorners(this.hwnd);
   }
 
   draw(fn: (ctx: CanvasRenderingContext2D) => void) {

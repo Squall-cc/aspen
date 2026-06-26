@@ -54,6 +54,37 @@ export function setDimensionsByHWnd(hwnd: string, dimensions: { width: number; h
   let sym = getSymbolByHWnd(hwnd);
   if (sym) setDimensions(sym, dimensions);
 }
+
+export function getPosition(hwnd: symbol) {
+  let win = domMap.get(hwnd);
+  if (!win) return undefined;
+  return { x: win.offsetLeft, y: win.offsetTop };
+}
+
+export function setPosition(hwnd: symbol, pos: { x: number; y: number }) {
+  let win = domMap.get(hwnd);
+  if (!win) return;
+  win.style.left = pos.x + "px";
+  win.style.top = pos.y + "px";
+}
+
+export function setCenter(hwnd: symbol, center: { x: number; y: number }) {
+  let dim = getDimensions(hwnd);
+  if (!dim) return;
+  setPosition(hwnd, { x: center.x - dim.width / 2, y: center.y - dim.height / 2 });
+}
+
+export function getCorners(hwnd: symbol) {
+  let pos = getPosition(hwnd);
+  let dim = getDimensions(hwnd);
+  if (!pos || !dim) return undefined;
+  return {
+    topLeft: { x: pos.x, y: pos.y },
+    topRight: { x: pos.x + dim.width, y: pos.y },
+    bottomLeft: { x: pos.x, y: pos.y + dim.height },
+    bottomRight: { x: pos.x + dim.width, y: pos.y + dim.height },
+  };
+}
 export const bringupwards = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, { z: ++topZ, minimized: false });
 export const minimize = (hwnd: symbol) => setWindows(w => w.hwnd === hwnd, "minimized", true);
 export function spawn(title: string = "window", run?: (hwnd: symbol) => void) {
