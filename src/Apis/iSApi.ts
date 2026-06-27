@@ -14,16 +14,12 @@ import {
   getSymbolByHWnd,
 } from "../Core/windowhelpers";
 import { drawToWindow } from "../Core/overlay";
-<<<<<<< HEAD
-import { setWallpaper } from "../Core/wallpaper";
+import { setWallpaper } from "../Core/systems";
 import { RegistryValue, RegistryRecord, RegistryValueHandle, RegistryInstanceAccess, RegistryKey} from "./RegistryApi"
-
-export { setWallpaper };
-
-=======
 export * from "./RegistryApi";
 export * from "./FileSystemApi"
->>>>>>> 478cdd1762da0876ff14194c0bbbcd232fcd0606
+export { setWallpaper };
+
 
 
 
