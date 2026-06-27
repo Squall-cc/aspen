@@ -17,8 +17,9 @@
     "vite-plugin-solid": "^2.11.12"
   },
   "dependencies": {
-    "@awesome.me/webawesome": "^3.9.0",
     "7.css": "^0.21.1",
+    "@awesome.me/webawesome": "^3.9.0",
+    "libcurl.js": "^0.7.4",
     "solid-js": "^1.9.13"
   }
 }
