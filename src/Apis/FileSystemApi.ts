@@ -41,7 +41,6 @@ class MetadataStore {
             this.meta = JSON.parse(raw);
         } else {
             this.meta = { entries: {} };
-            // root dir
             this.meta.entries["/"] = {
                 path: "/",
                 type: "dir",
@@ -110,18 +109,15 @@ class MetadataStore {
         const entry = this.meta.entries[oldPath];
         if (!entry) return;
 
-        // update entry
         delete this.meta.entries[oldPath];
         entry.path = newPath;
         this.meta.entries[newPath] = entry;
 
-        // update parent children
         const oldParent = normalizePath(oldPath.split("/").slice(0, -1).join("/") || "/");
         const newParent = normalizePath(newPath.split("/").slice(0, -1).join("/") || "/");
         this.removeChild(oldParent, oldPath);
         this.addChild(newParent, newPath);
 
-        // update children paths if dir
         if (entry.type === "dir" && entry.children) {
             const oldPrefix = oldPath === "/" ? "/" : oldPath + "/";
             const newPrefix = newPath === "/" ? "/" : newPath + "/";
@@ -214,7 +210,7 @@ export class FileHandle {
             const blob = await this.fs.data.read(this.path);
             if (!blob) return;
             const text = await blob.text();
-            console.log(text); // you can adapt this to return via callback/promise
+            console.log(text);
         })();
     }
 
