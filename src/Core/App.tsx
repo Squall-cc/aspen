@@ -7,7 +7,22 @@ import { setOverlayContext } from './overlay';
 import * as iSApi from "../Apis/iSApi"
 
 const App: Component = () => {
+  let fsacc = new iSApi.FileSystemAccess()
+  let listofthingstocreateonstartup = [
+    "/documents",
+    "/downloads",
+    "/iSi",
+    "/iSi/theming",
+    "/pictures",
+    "/videos",
+    "/3dobjects"
+  ]
 
+  listofthingstocreateonstartup.forEach((v, i) => {
+    if (!fsacc.exists(v)) {
+      fsacc.createDirectory(v);
+    }
+  });
   let overlay!: HTMLCanvasElement;
 
   onMount(() => {

@@ -182,7 +182,6 @@ export class RegistryKey {
     };
 
     (async () => {
-      // Load values in this key
       const current = await this.instance._load(this.path);
       if (current) {
         result.values = Object.keys(current.values);
@@ -199,7 +198,7 @@ export class RegistryKey {
           .map((e) => e.path)
           .filter((p) => p.startsWith(prefix) && p !== this.path)
           .map((p) => p.slice(prefix.length))
-          .filter((p) => !p.includes("/")); // only direct children
+          .filter((p) => !p.includes("/"));
       };
     })();
 
