@@ -14,8 +14,8 @@ import {
   getSymbolByHWnd,
 } from "../Core/windowhelpers";
 import { drawToWindow } from "../Core/overlay";
-import { RegistryValue, RegistryRecord, RegistryValueHandle, RegistryInstanceAccess, RegistryKey} from "./RegistryApi"
-
+export * from "./RegistryApi";
+export * from "./FileSystemApi"
 
 
 

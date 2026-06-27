@@ -18,8 +18,8 @@ const App: Component = () => {
   if (!db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg")) {
     db.getKey("InternalSystem/Settings/ctheme").setValue("curbkg", "default0")
   }
-  if (db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg") == "default0") {
-    
+  if (db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg").value == "default0") {
+    ""
   }
   return (
     <>
