@@ -5,10 +5,15 @@
   flex-direction: column;
 }
 
-#windowheader {
+#window > .title-bar {
   cursor: move;
   z-index: 10;
   flex-shrink: 0;
+}
+
+#window .window-body {
+  flex: 1;
+  box-sizing: border-box;
 }
 
 #window iframe {
