@@ -314,8 +314,8 @@ export class FileSystemAccess {
     );
 
     const entry: FsEntry = {
-      path, // original case
-      lookup, // lowercase
+      path,
+      lookup,
       type: "dir",
       children: [],
       createdAt: Date.now(),
@@ -348,8 +348,8 @@ export class FileSystemAccess {
   }
 
   createFile(path: string): void {
-    const original = path; // preserve original casing
-    const lookup = path.toLowerCase(); // case-insensitive key
+    const original = path;
+    const lookup = path.toLowerCase();
 
     if (this.exists(lookup)) return;
 
@@ -367,13 +367,10 @@ export class FileSystemAccess {
       modifiedAt: now,
     };
 
-    // Save metadata
     this.meta.setEntry(entry);
 
-    // Add to parent directory children (store lowercase key)
     this.meta.addChild(parentLookup, lookup);
 
-    // Create empty file data in IndexedDB
     (async () => {
       await this.data.write(lookup, new Blob([]));
     })();
