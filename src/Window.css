@@ -1,22 +1,13 @@
 #window {
   position: absolute;
   z-index: 9;
-  width: 320px;
   display: flex;
   flex-direction: column;
-  background-color: var(--window-bg);
-  border: 1px solid var(--window-border);
-  text-align: center;
 }
 
 #windowheader {
-  padding: 10px;
   cursor: move;
   z-index: 10;
-  background-color: var(--header-bg);
-  color: var(--header-fg);
-  display: flex;
-  justify-content: space-between;
   flex-shrink: 0;
 }
 

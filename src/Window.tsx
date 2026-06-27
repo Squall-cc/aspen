@@ -1,5 +1,6 @@
 
 import './Window.css';
+import './themes/aero.css';
 import type { ParentComponent } from "solid-js";
 import { createSignal, onMount } from "solid-js";
 import { registerWindowElement } from "./windowhelpers";
@@ -32,8 +33,8 @@ onMount(() => {
 });
 
     return <>
-        <div id="window" ref={windowthingy} style={{ "z-index": props.zIndex }}>
-        <div 
+        <div id="window" class="aero-window" ref={windowthingy} style={{ "z-index": props.zIndex }}>
+        <div
 
         onMouseDown={(e)=> {
           props.onfocus?.()
@@ -47,17 +48,23 @@ onMount(() => {
         }}
 
 
-        id="windowheader">{props.title} 
-        <div id="windowcontrols"> 
+        id="windowheader" class="aero-title-bar">
+        <svg class="aero-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <rect width="16" height="16" rx="2" fill="#2196F3" />
+        </svg>
+        <span class="aero-title-bar-text">{props.title}</span>
+        <div id="windowcontrols" class="aero-title-bar-controls">
         <button onClick={() => props.onminimize?.()}>_</button>
-        <button onClick={() => props.onclose?.()}>
+        <button class="close" onClick={() => props.onclose?.()}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="12" height="16">
             <path d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z" fill="currentColor"/>
           </svg>
         </button>
         </div>
         </div>
+        <div class="aero-window-body">
         {props.children}
+        </div>
         <div
         id="resizehandle"
         onMouseDown={(e) => {
