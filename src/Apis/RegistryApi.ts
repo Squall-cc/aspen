@@ -69,6 +69,16 @@ export class RegistryInstanceAccess {
       req.onerror = () => resolve(null);
     });
   }
+  async _save(record: RegistryRecord): Promise<void> {
+    await this.ready;
+    const tx = this.db!.transaction("registry", "readwrite");
+    const store = tx.objectStore("registry");
+    store.put(record);
+  }
+
+  get _db(): IDBDatabase {
+    return this.db!;
+  }
 
   async _write(
     path: string,
@@ -166,15 +176,18 @@ export class RegistryKey {
     this.instance._deleteKey(this.path);
   }
   list(): { keys: string[]; values: string[] } {
-    const result = { keys: [], values: [] };
+    const result: { keys: string[]; values: string[] } = {
+      keys: [],
+      values: [],
+    };
 
     (async () => {
+      // Load values in this key
       const current = await this.instance._load(this.path);
       if (current) {
         result.values = Object.keys(current.values);
       }
-
-      const tx = this.instance.db!.transaction("registry", "readonly");
+      const tx = this.instance._db.transaction("registry", "readonly");
       const store = tx.objectStore("registry");
       const req = store.getAll();
 
@@ -192,10 +205,11 @@ export class RegistryKey {
 
     return result;
   }
+
   createKey(): void {
     (async () => {
       const existing = await this.instance._load(this.path);
-      if (existing) return; // already exists, do nothing
+      if (existing) return;
 
       await this.instance._save({
         path: this.path,
