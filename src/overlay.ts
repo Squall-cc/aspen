@@ -18,6 +18,7 @@ export function drawToWindow(id: symbol, fn: (ctx: CanvasRenderingContext2D) => 
     canvas = document.createElement("canvas");
     canvas.width = 320;
     canvas.height = 200;
+    canvas.draggable = false;
     canvasmap.set(id, canvas);
     setContent(id, canvas);
   }
