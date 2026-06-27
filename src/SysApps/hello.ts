@@ -1,4 +1,4 @@
-import { drawToWindow } from "../overlay";
+import { drawToWindow } from "../Core/overlay";
 
 export default function run(id: symbol) {
   drawToWindow(id, ctx => { // uses draw to window cuz its lowk been useless

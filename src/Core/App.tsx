@@ -4,6 +4,7 @@ import Window from './Window';
 import Taskbar from './Taskbar';
 import { windows, closeWindow, minimize, bringupwards, debug123 } from './windowhelpers';
 import { setOverlayContext } from './overlay';
+import { RegistryInstanceAccess } from '../Apis/RegistryApi';
 
 const App: Component = () => {
   let overlay!: HTMLCanvasElement;
@@ -13,7 +14,13 @@ const App: Component = () => {
     overlay.height = window.innerHeight;
     setOverlayContext(overlay.getContext("2d")!);
   });
-
+  let db = new RegistryInstanceAccess()
+  if (!db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg")) {
+    db.getKey("InternalSystem/Settings/ctheme").setValue("curbkg", "default0")
+  }
+  if (db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg") == "default0") {
+    
+  }
   return (
     <>
       <div id="wallpaper" />
