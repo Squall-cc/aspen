@@ -12,8 +12,12 @@ import {
   setCenter,
   getCorners,
   getSymbolByHWnd,
-} from "./windowhelpers";
-import { drawToWindow } from "./overlay";
+} from "../Core/windowhelpers";
+import { drawToWindow } from "../Core/overlay";
+import { RegistryValue, RegistryRecord, RegistryValueHandle, RegistryInstanceAccess, RegistryKey} from "./RegistryApi"
+
+
+
 
 export class WindowHandle {
   constructor(private hwnd: symbol) {}
@@ -36,11 +40,11 @@ export class WindowHandle {
   }
 
   getTitle() {
-    return windows.find(w => w.hwnd === this.hwnd)?.title;
+    return windows.find((w) => w.hwnd === this.hwnd)?.title;
   }
 
   getContent() {
-    return windows.find(w => w.hwnd === this.hwnd)?.content;
+    return windows.find((w) => w.hwnd === this.hwnd)?.content;
   }
 
   setContent(content: JSX.Element) {

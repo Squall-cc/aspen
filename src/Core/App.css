@@ -16,7 +16,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: url(./wallpaper.png) center / cover no-repeat;
+  background: url(./themes/wallpaper.png) center / cover no-repeat;
 }
 
 #overlay {
