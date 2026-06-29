@@ -1,21 +1,8 @@
 todo:
-uhh idk
-wallpaper?
-taskbar
-
-
- disable selecting text while moving window, or just disable selecting title bars
-  add limits for window movement so no horizontal scrollbar appears
- add resizing
- taskbar icons (way later)
- seperatetaskbar + launcher
-different windows types (modal, toolbar, normal)
-wallpaper*S*
-
-api:
-resizing from function
-making actual uuids for each window that api can expose and use
-
-
-ok so for grabbing windows i need to:
-find out how tf i can get window titles (line 45 in src/window.tsx)
+uhhh
+idk
+more api helpers for mouse movement and stuff
+win32 stuff ported
+createConsolewhatever helper manager for emscripten
+process manager
+documentation
