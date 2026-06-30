@@ -2,7 +2,7 @@ import { render } from "solid-js/web";
 
 import "solid-devtools";
 import * as fileSystemApi from "./Apis/FileSystemApi";
-import { WindowHandle } from "./Apis/iSApi";
+import { WindowHandle, spawn } from "./Apis/iSApi";
 import * as registryApi from "./Apis/RegistryApi";
 import App from "./Core/App";
 import * as systems from "./Core/systems";
@@ -16,22 +16,26 @@ declare global {
       registry: typeof registryApi;
       fs: typeof fileSystemApi;
       version: string;
+      spawn: typeof spawn;
     };
     WindowHandle: typeof WindowHandle;
+    spawn: typeof spawn;
   }
 }
 
 const API = {
-  WindowHandle, // hog off windowhandle
+  WindowHandle,
   systems,
   registry: registryApi,
   fs: fileSystemApi,
   version: "1.0.0",
+  spawn
 };
 
 // make global
 window.__API = API;
 window.WindowHandle = WindowHandle;
+window.spawn = spawn; 
 
 // logging
 if (import.meta.env.DEV) {

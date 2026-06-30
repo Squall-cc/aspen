@@ -16,6 +16,7 @@ import {
   getSymbolByHWnd,
   getMousePositionRelativeToWindow,
   getCurrentMousePosition,
+  spawn
 } from "../Core/windowhelpers";
 export * from "../Core/systems";
 export * from "./RegistryApi";
@@ -98,3 +99,6 @@ export class WindowHandle {
     drawToWindow(this.hwnd, fn);
   }
 }
+
+
+export {spawn}
