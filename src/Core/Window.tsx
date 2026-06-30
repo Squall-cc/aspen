@@ -1,9 +1,7 @@
 import "./Window.css";
 import "7.css/dist/gui/window.css";
-
 import type { ParentComponent } from "solid-js";
 import { createSignal, onMount } from "solid-js";
-
 import { registerWindowElement } from "./windowhelpers";
 
 interface WindowProps {
@@ -100,11 +98,26 @@ const Window: ParentComponent<WindowProps> = (props) => {
   }
 
   function resize(e: MouseEvent) {
-    windowthingy.style.width =
-      Math.max(100, startwidth + (e.clientX - rszisestartX)) + "px";
-    windowthingy.style.height =
-      Math.max(100, startheight + (e.clientY - rszisestarty)) + "px";
-  }
+    const deltaX = e.clientX - rszisestartX;
+    const deltaY = e.clientY - rszisestarty;
+    
+    const newWidth = Math.max(100, startwidth + deltaX);
+    const newHeight = Math.max(100, startheight + deltaY);
+    
+    windowthingy.style.width = newWidth + "px";
+    windowthingy.style.height = newHeight + "px";
+    
+    // keep window within bounds
+    const maxLeft = window.innerWidth - newWidth;
+    const maxTop = window.innerHeight - newHeight;
+    
+    if (windowthingy.offsetLeft > maxLeft) {
+      windowthingy.style.left = Math.max(0, maxLeft) + "px";
+    }
+    if (windowthingy.offsetTop > maxTop) {
+      windowthingy.style.top = Math.max(0, maxTop) + "px";
+    }
+}
 
   function resizeUp() {
     document.removeEventListener("mouseup", resizeUp);
