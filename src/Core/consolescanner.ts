@@ -1,6 +1,6 @@
 // stolen code
 
-function createConsoleScanner(o: any, n: any) {
+export function createConsoleScanner(o: any, n: any) {
   const c = console.log;
   return (
     (console.log = function (...e) {
