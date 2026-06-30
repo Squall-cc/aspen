@@ -12,16 +12,13 @@ import {
   setCenter,
   getCorners,
   getSymbolByHWnd,
+  getMousePositionRelativeToWindow,
+  getCurrentMousePosition,
 } from "../Core/windowhelpers";
 import { drawToWindow } from "../Core/overlay";
-import { setWallpaper, setWallpaperWithBlob } from "../Core/systems";
-import { RegistryValue, RegistryRecord, RegistryValueHandle, RegistryInstanceAccess, RegistryKey} from "./RegistryApi"
+export * from "../Core/systems";
 export * from "./RegistryApi";
-export * from "./FileSystemApi"
-export { setWallpaper, setWallpaperWithBlob };
-
-
-
+export * from "./FileSystemApi";
 
 export class WindowHandle {
   constructor(private hwnd: symbol) {}
@@ -65,6 +62,23 @@ export class WindowHandle {
 
   position() {
     return getPosition(this.hwnd);
+  }
+
+  getMousePosition() {
+    return getCurrentMousePosition();
+  }
+
+  getMousePositionRelative() {
+    return getMousePositionRelativeToWindow(this.hwnd);
+  }
+
+  getMouseInfo() {
+    const global = getCurrentMousePosition();
+    const relative = getMousePositionRelativeToWindow(this.hwnd);
+    return {
+      global,
+      relative,
+    };
   }
 
   setPosition(pos: { x: number; y: number }) {

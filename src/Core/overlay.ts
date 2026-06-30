@@ -12,7 +12,10 @@ export function draw(fn: (ctx: CanvasRenderingContext2D) => void) {
 
 let canvasmap = new Map<symbol, HTMLCanvasElement>();
 
-export function drawToWindow(id: symbol, fn: (ctx: CanvasRenderingContext2D) => void) {
+export function drawToWindow(
+  id: symbol,
+  fn: (ctx: CanvasRenderingContext2D) => void,
+) {
   let canvas = canvasmap.get(id);
   if (!canvas) {
     canvas = document.createElement("canvas");
@@ -25,7 +28,10 @@ export function drawToWindow(id: symbol, fn: (ctx: CanvasRenderingContext2D) => 
   fn(canvas.getContext("2d")!);
 }
 
-export function drawToWindowByHWnd(hwnd: string, fn: (ctx: CanvasRenderingContext2D) => void) {
+export function drawToWindowByHWnd(
+  hwnd: string,
+  fn: (ctx: CanvasRenderingContext2D) => void,
+) {
   let id = getSymbolByHWnd(hwnd);
   if (id) drawToWindow(id, fn);
 }

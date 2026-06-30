@@ -1,13 +1,19 @@
-import { For, Show, onMount, type Component } from 'solid-js';
-import './App.css';
-import Window from './Window';
-import Taskbar from './Taskbar';
-import { windows, closeWindow, minimize, bringupwards, debug123 } from './windowhelpers';
-import { setOverlayContext } from './overlay';
-import * as iSApi from "../Apis/iSApi"
+import { For, Show, onMount, type Component } from "solid-js";
+import "./App.css";
+import Window from "./Window";
+import Taskbar from "./Taskbar";
+import {
+  windows,
+  closeWindow,
+  minimize,
+  bringupwards,
+  debug123,
+} from "./windowhelpers";
+import { setOverlayContext } from "./overlay";
+import * as iSApi from "../Apis/iSApi";
 
 const App: Component = () => {
-  let fsacc = new iSApi.FileSystemAccess()
+  let fsacc = new iSApi.FileSystemAccess();
   let listofthingstocreateonstartup = [
     "/documents",
     "/downloads",
@@ -15,8 +21,8 @@ const App: Component = () => {
     "/iSi/theming",
     "/pictures",
     "/videos",
-    "/3dobjects"
-  ]
+    "/3dobjects",
+  ];
 
   listofthingstocreateonstartup.forEach((v, i) => {
     if (!fsacc.exists(v)) {
@@ -30,12 +36,15 @@ const App: Component = () => {
     overlay.height = window.innerHeight;
     setOverlayContext(overlay.getContext("2d")!);
   });
-  let db = new iSApi.RegistryInstanceAccess()
+  let db = new iSApi.RegistryInstanceAccess();
   if (!db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg").value) {
-    db.getKey("InternalSystem/Settings/ctheme").setValue("curbkg", "default0")
+    db.getKey("InternalSystem/Settings/ctheme").setValue("curbkg", "default0");
   }
-  if (db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg").value == "default0") {
-    ""
+  if (
+    db.getKey("InternalSystem/Settings/ctheme").getValue("curbkg").value ==
+    "default0"
+  ) {
+    ("");
   }
   return (
     <>
@@ -44,7 +53,14 @@ const App: Component = () => {
       <For each={windows}>
         {(w) => (
           <Show when={!w.minimized}>
-            <Window hwnd={w.hwnd} title={w.title} zIndex={w.z} onclose={() => closeWindow(w.hwnd)} onminimize={() => minimize(w.hwnd)} onfocus={() => bringupwards(w.hwnd)}>
+            <Window
+              hwnd={w.hwnd}
+              title={w.title}
+              zIndex={w.z}
+              onclose={() => closeWindow(w.hwnd)}
+              onminimize={() => minimize(w.hwnd)}
+              onfocus={() => bringupwards(w.hwnd)}
+            >
               {w.content}
             </Window>
           </Show>

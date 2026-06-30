@@ -1,7 +1,5 @@
-import { windows, bringupwards } from './Core/windowhelpers';
+import { windows, bringupwards } from "./Core/windowhelpers";
 
-function LdApp() {
-    
-}
+function LdApp() {}
 
-export default LdApp
+export default LdApp;

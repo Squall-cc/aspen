@@ -7,7 +7,8 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "format": "prettier -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" \"*.{js,ts,mjs}\"",         "//": "taken from https://github.com/solidjs/solid-site/blob/main/package.json"
   },
   "license": "MIT",
   "devDependencies": {
@@ -19,7 +20,9 @@
   "dependencies": {
     "7.css": "^0.21.1",
     "@awesome.me/webawesome": "^3.9.0",
+    "eslint": "^10.6.0",
     "libcurl.js": "^0.7.4",
+    "prettier": "^3.9.1",
     "solid-js": "^1.9.13"
   }
 }
