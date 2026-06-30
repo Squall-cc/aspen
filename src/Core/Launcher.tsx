@@ -1,10 +1,14 @@
 import "./Launcher.css";
+
 import type { Component } from "solid-js";
 import { For } from "solid-js";
-import { spawn } from "./windowhelpers";
-import hi from "../SysApps/hi";
-import hello from "../SysApps/hello";
+
 import draw from "../SysApps/draw";
+import hello from "../SysApps/hello";
+import hi from "../SysApps/hi";
+
+import { spawn } from "./windowhelpers";
+
 
 const apps = new Map([
   ["hi", hi],

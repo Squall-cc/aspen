@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { libcurl } from "libcurl.js/bundled";
-import { createConsoleScanner } from "./consolescanner.ts";
+
 export function setWallpaper(url: string) {
   const el = document.getElementById("wallpaper");
   if (el) el.style.backgroundImage = `url(${url})`;
@@ -15,7 +15,7 @@ export function setWallpaperWithBlob(blob: Blob) {
 }
 
 export function setWisp(url: string) {
-  libcurl.set_websocket(`url`);
+  libcurl.set_websocket(url);
 }
 
 export function wFetchText(url: string) {
@@ -27,6 +27,4 @@ export async function wFetchBlob(url: string) {
   return URL.createObjectURL(await response.blob());
 }
 
-export function createScanner(func: any, thing: any) {
-  return createConsoleScanner(func, thing);
-}
+

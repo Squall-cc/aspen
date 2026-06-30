@@ -1,4 +1,6 @@
 import type { JSX } from "solid-js";
+
+import { drawToWindow } from "../Core/overlay";
 import {
   windows,
   closeWindow,
@@ -15,7 +17,6 @@ import {
   getMousePositionRelativeToWindow,
   getCurrentMousePosition,
 } from "../Core/windowhelpers";
-import { drawToWindow } from "../Core/overlay";
 export * from "../Core/systems";
 export * from "./RegistryApi";
 export * from "./FileSystemApi";

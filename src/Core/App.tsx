@@ -1,7 +1,11 @@
 import { For, Show, onMount, type Component } from "solid-js";
+
 import "./App.css";
-import Window from "./Window";
+import * as iSApi from "../Apis/iSApi";
+
+import { setOverlayContext } from "./overlay";
 import Taskbar from "./Taskbar";
+import Window from "./Window";
 import {
   windows,
   closeWindow,
@@ -9,8 +13,7 @@ import {
   bringupwards,
   debug123,
 } from "./windowhelpers";
-import { setOverlayContext } from "./overlay";
-import * as iSApi from "../Apis/iSApi";
+
 
 const App: Component = () => {
   let fsacc = new iSApi.FileSystemAccess();

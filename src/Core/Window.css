@@ -39,3 +39,18 @@
   cursor: nwse-resize;
   background-color: var(--resize-handle-bg);
 }
+
+
+.window .title-bar {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.window .title-bar * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

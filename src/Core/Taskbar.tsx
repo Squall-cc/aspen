@@ -1,8 +1,10 @@
 import "./Taskbar.css";
+
 import type { Component } from "solid-js";
 import { createSignal, For, Show } from "solid-js";
-import { windows, bringupwards } from "./windowhelpers";
+
 import Launcher from "./Launcher";
+import { windows, bringupwards } from "./windowhelpers";
 
 const Taskbar: Component = () => {
   const [launcherOpen, setLauncherOpen] = createSignal(false);

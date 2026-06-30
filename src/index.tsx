@@ -1,11 +1,12 @@
 import { render } from "solid-js/web";
-import "solid-devtools";
 
-import App from "./Core/App";
-import { WindowHandle } from "./Apis/iSApi";
-import * as systems from "./Core/systems";
-import * as registryApi from "./Apis/RegistryApi";
+import "solid-devtools";
 import * as fileSystemApi from "./Apis/FileSystemApi";
+import { WindowHandle } from "./Apis/iSApi";
+import * as registryApi from "./Apis/RegistryApi";
+import App from "./Core/App";
+import * as systems from "./Core/systems";
+
 
 declare global {
   interface Window {
@@ -37,7 +38,6 @@ if (import.meta.env.DEV) {
   console.log("available:", Object.keys(API));
   console.log("WindowHandle:", WindowHandle);
 }
-
 
 const root = document.getElementById("root");
 

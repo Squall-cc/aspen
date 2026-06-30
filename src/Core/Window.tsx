@@ -1,7 +1,9 @@
 import "./Window.css";
 import "7.css/dist/gui/window.css";
+
 import type { ParentComponent } from "solid-js";
 import { createSignal, onMount } from "solid-js";
+
 import { registerWindowElement } from "./windowhelpers";
 
 interface WindowProps {
@@ -16,7 +18,8 @@ interface WindowProps {
 const Window: ParentComponent<WindowProps> = (props) => {
   const [offsetX, setoffsetX] = createSignal(0);
   const [offsetY, setoffsetY] = createSignal(0);
-  let windowthingy!: HTMLDivElement; // typescript extension wont stfu
+  // @ts-ignore
+  let windowthingy!: HTMLDivElement; // eslint-disable-line no-unassigned-vars
 
   let rszisestartX = 0;
   let rszisestarty = 0;

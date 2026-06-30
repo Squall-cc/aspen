@@ -1,8 +1,8 @@
 import js from "@eslint/js";
 import ts from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import solid from "eslint-plugin-solid";
 import importPlugin from "eslint-plugin-import-x";
+import solid from "eslint-plugin-solid";
 import unusedImports from "eslint-plugin-unused-imports";
 
 export default [

@@ -1,6 +1,8 @@
-import { createStore } from "solid-js/store";
 import type { JSX } from "solid-js";
+import { createStore } from "solid-js/store";
+
 import { clearWindowCanvas } from "./overlay";
+
 // todo: debug window dragging resizing bottom right
 interface WindowData {
   hwnd: symbol;
