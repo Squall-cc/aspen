@@ -16,16 +16,17 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^26.1.0",
     "solid-devtools": "^0.34.5",
     "typescript": "^6.0.3",
     "vite": "^7.3.6",
     "vite-plugin-solid": "^2.11.12"
   },
   "dependencies": {
-    "7.css": "^0.21.1",
     "@eslint/js": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.62.1",
+    "7.css": "^0.21.1",
     "eslint": "^10.6.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-import-x": "^4.17.1",

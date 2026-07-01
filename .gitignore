@@ -1,4 +1,5 @@
 dist
+.cache
 .wrangler
 .output
 .vercel
