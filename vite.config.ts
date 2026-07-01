@@ -1,9 +1,11 @@
 import { execSync } from "node:child_process";
 import {
+  createReadStream,
   cpSync,
   existsSync,
   readFileSync,
   rmSync,
+  statSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
@@ -16,6 +18,22 @@ const browser_repo = "https://github.com/Squall-cc/browser.git";
 const pulsar_repo = "https://github.com/abndnce/pulsar.git";
 const browser_cache = path.resolve(import.meta.dirname, ".cache/browser");
 const pulsar_dir = path.join(browser_cache, "pulsar");
+const pulsar_client_dir = path.join(pulsar_dir, "packages", "client");
+
+const MIME_TYPES: Record<string, string> = {
+  ".html": "text/html",
+  ".js": "text/javascript",
+  ".mjs": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".wasm": "application/wasm",
+  ".svg": "image/svg+xml",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".ico": "image/x-icon",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+};
 
 function cloneOrPull(repo: string, dir: string) {
   if (existsSync(dir)) {
@@ -33,17 +51,43 @@ function ensureWorkspaces(pkgPath: string, workspaces: string[]) {
   }
 }
 
+function buildBrowser() {
+  cloneOrPull(browser_repo, browser_cache);
+  cloneOrPull(pulsar_repo, pulsar_dir);
+  ensureWorkspaces(path.join(pulsar_dir, "package.json"), ["packages/*"]);
+
+  execSync("bun install", { cwd: browser_cache, stdio: "inherit" });
+  execSync("bun run build", { cwd: pulsar_client_dir, stdio: "inherit" });
+  execSync("bun run build", { cwd: browser_cache, stdio: "inherit" });
+}
+
 function browserSubBuildPlugin(): Plugin {
   return {
     name: "browser-sub-build",
-    apply: "build",
+    configureServer(server) {
+      const browserDist = path.join(browser_cache, "dist");
+      if (!existsSync(browserDist)) {
+        buildBrowser();
+      }
+
+      server.middlewares.use("/browser", (req, res) => {
+        let urlPath = (req.url || "/").split("?")[0];
+        if (urlPath === "/" || urlPath === "") urlPath = "/index.html";
+
+        let filePath = path.join(browserDist, urlPath);
+        if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
+          filePath = path.join(browserDist, "index.html");
+        }
+
+        res.setHeader(
+          "Content-Type",
+          MIME_TYPES[path.extname(filePath)] || "application/octet-stream",
+        );
+        createReadStream(filePath).pipe(res);
+      });
+    },
     closeBundle() {
-      cloneOrPull(browser_repo, browser_cache);
-      cloneOrPull(pulsar_repo, pulsar_dir);
-      ensureWorkspaces(path.join(pulsar_dir, "package.json"), ["packages/*"]);
-      // todo, pnpm support or whatever dave uses
-      execSync("npm install", { cwd: browser_cache, stdio: "inherit" });
-      execSync("npm run build", { cwd: browser_cache, stdio: "inherit" });
+      buildBrowser();
 
       const srcDist = path.join(browser_cache, "dist");
       const destDist = path.resolve(import.meta.dirname, "dist", "browser");
