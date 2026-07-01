@@ -2,6 +2,7 @@ import "./Window.css";
 import "7.css/dist/gui/window.css";
 import type { ParentComponent } from "solid-js";
 import { createSignal, onMount } from "solid-js";
+
 import { registerWindowElement } from "./windowhelpers";
 
 interface WindowProps {

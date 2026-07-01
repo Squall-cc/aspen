@@ -33,6 +33,10 @@ function normalizePath(path: string): string {
   return "/" + stack.join("/");
 }
 
+function normalizeLookup(path: string): string {
+  return normalizePath(path).toLowerCase();
+}
+
 class MetadataStore {
   private meta: FsMetadata;
 
@@ -59,83 +63,90 @@ class MetadataStore {
   }
 
   getEntry(path: string): FsEntry | null {
-    path = normalizePath(path);
-    return this.meta.entries[path] || null;
+    const lookup = normalizeLookup(path);
+    return this.meta.entries[lookup] || null;
   }
 
   setEntry(entry: FsEntry) {
     entry.path = normalizePath(entry.path);
-    this.meta.entries[entry.path] = entry;
+    entry.lookup = normalizeLookup(entry.path);
+    this.meta.entries[entry.lookup] = entry;
     this.save();
   }
 
   deleteEntry(path: string) {
-    path = normalizePath(path);
-    delete this.meta.entries[path];
+    const lookup = normalizeLookup(path);
+    delete this.meta.entries[lookup];
     this.save();
   }
 
   listChildren(path: string): string[] {
-    path = normalizePath(path);
-    const e = this.meta.entries[path];
+    const lookup = normalizeLookup(path);
+    const e = this.meta.entries[lookup];
     if (!e || e.type !== "dir") return [];
     return e.children || [];
   }
 
   addChild(dirPath: string, childPath: string) {
-    dirPath = normalizePath(dirPath);
-    childPath = normalizePath(childPath);
-    const dir = this.meta.entries[dirPath];
+    const dirLookup = normalizeLookup(dirPath);
+    const childLookup = normalizeLookup(childPath);
+    const dir = this.meta.entries[dirLookup];
     if (!dir || dir.type !== "dir") return;
     dir.children = dir.children || [];
-    if (!dir.children.includes(childPath)) {
-      dir.children.push(childPath);
+    if (!dir.children.includes(childLookup)) {
+      dir.children.push(childLookup);
       dir.modifiedAt = Date.now();
       this.save();
     }
   }
 
   removeChild(dirPath: string, childPath: string) {
-    dirPath = normalizePath(dirPath);
-    childPath = normalizePath(childPath);
-    const dir = this.meta.entries[dirPath];
+    const dirLookup = normalizeLookup(dirPath);
+    const childLookup = normalizeLookup(childPath);
+    const dir = this.meta.entries[dirLookup];
     if (!dir || dir.type !== "dir" || !dir.children) return;
-    dir.children = dir.children.filter((c) => c !== childPath);
+    dir.children = dir.children.filter((c) => c !== childLookup);
     dir.modifiedAt = Date.now();
     this.save();
   }
 
   renamePath(oldPath: string, newPath: string) {
-    oldPath = normalizePath(oldPath);
-    newPath = normalizePath(newPath);
-    const entry = this.meta.entries[oldPath];
+    const oldLookup = normalizeLookup(oldPath);
+    const newDisplay = normalizePath(newPath);
+    const newLookup = normalizeLookup(newPath);
+    const entry = this.meta.entries[oldLookup];
     if (!entry) return;
 
-    delete this.meta.entries[oldPath];
-    entry.path = newPath;
-    this.meta.entries[newPath] = entry;
+    const oldDisplay = entry.path;
+
+    delete this.meta.entries[oldLookup];
+    entry.path = newDisplay;
+    entry.lookup = newLookup;
+    this.meta.entries[newLookup] = entry;
 
     const oldParent = normalizePath(
-      oldPath.split("/").slice(0, -1).join("/") || "/",
+      oldDisplay.split("/").slice(0, -1).join("/") || "/",
     );
     const newParent = normalizePath(
-      newPath.split("/").slice(0, -1).join("/") || "/",
+      newDisplay.split("/").slice(0, -1).join("/") || "/",
     );
-    this.removeChild(oldParent, oldPath);
-    this.addChild(newParent, newPath);
+    this.removeChild(oldParent, oldLookup);
+    this.addChild(newParent, newLookup);
 
     if (entry.type === "dir" && entry.children) {
-      const oldPrefix = oldPath === "/" ? "/" : oldPath + "/";
-      const newPrefix = newPath === "/" ? "/" : newPath + "/";
+      const oldDisplayPrefix = oldDisplay === "/" ? "/" : oldDisplay + "/";
+      const newDisplayPrefix = newDisplay === "/" ? "/" : newDisplay + "/";
       const updatedChildren: string[] = [];
-      for (const child of entry.children) {
-        const newChildPath = normalizePath(child.replace(oldPrefix, newPrefix));
-        const childEntry = this.meta.entries[child];
+      for (const childLookup of entry.children) {
+        const childEntry = this.meta.entries[childLookup];
         if (childEntry) {
-          delete this.meta.entries[child];
-          childEntry.path = newChildPath;
-          this.meta.entries[newChildPath] = childEntry;
-          updatedChildren.push(newChildPath);
+          delete this.meta.entries[childLookup];
+          childEntry.path = normalizePath(
+            childEntry.path.replace(oldDisplayPrefix, newDisplayPrefix),
+          );
+          childEntry.lookup = normalizeLookup(childEntry.path);
+          this.meta.entries[childEntry.lookup] = childEntry;
+          updatedChildren.push(childEntry.lookup);
         }
       }
       entry.children = updatedChildren;
@@ -283,8 +294,7 @@ export class FileSystemAccess {
   }
 
   exists(path: string): boolean {
-    const lookup = this.normalizeLookup(path);
-    return this.meta.getEntry(lookup) !== null;
+    return this.meta.getEntry(path) !== null;
   }
 
   isFile(path: string): boolean {
@@ -297,22 +307,15 @@ export class FileSystemAccess {
     return !!e && e.type === "dir";
   }
 
-  private normalizeLookup(path: string): string {
-    return path.toLowerCase();
-  }
-
   createDirectory(path: string): void {
-    const lookup = this.normalizeLookup(path);
+    const original = normalizePath(path);
+    if (this.exists(original)) return;
 
-    if (this.exists(lookup)) return;
-
-    const parent = this.normalizeLookup(
-      path.split("/").slice(0, -1).join("/") || "/",
-    );
+    const parentPath = original.split("/").slice(0, -1).join("/") || "/";
 
     const entry: FsEntry = {
-      path,
-      lookup,
+      path: original,
+      lookup: normalizeLookup(original),
       type: "dir",
       children: [],
       createdAt: Date.now(),
@@ -320,25 +323,24 @@ export class FileSystemAccess {
     };
 
     this.meta.setEntry(entry);
-    this.meta.addChild(parent, lookup);
+    this.meta.addChild(parentPath, original);
   }
 
   deleteDirectory(path: string): void {
-    path = normalizePath(path);
-    const entry = this.meta.getEntry(path);
+    const original = normalizePath(path);
+    const entry = this.meta.getEntry(original);
     if (!entry || entry.type !== "dir") return;
 
-    const children = this.meta.listChildren(path);
+    const children = this.meta.listChildren(original);
     if (children.length > 0) return;
 
-    const parent = normalizePath(path.split("/").slice(0, -1).join("/") || "/");
-    this.meta.removeChild(parent, path);
-    this.meta.deleteEntry(path);
+    const parent = normalizePath(original.split("/").slice(0, -1).join("/") || "/");
+    this.meta.removeChild(parent, original);
+    this.meta.deleteEntry(original);
   }
 
   listDirectory(path: string): string[] {
-    const lookup = this.normalizeLookup(path);
-    return this.meta.listChildren(lookup).map((childLookup) => {
+    return this.meta.listChildren(path).map((childLookup) => {
       const entry = this.meta.getEntry(childLookup);
       return entry?.path ?? childLookup;
     });
@@ -346,18 +348,14 @@ export class FileSystemAccess {
 
   createFile(path: string): void {
     const original = normalizePath(path);
-    const lookup = path.toLowerCase();
+    if (this.exists(original)) return;
 
-    if (this.exists(lookup)) return;
-
-    const parentPath = path.split("/").slice(0, -1).join("/") || "/";
-    const parentLookup = parentPath.toLowerCase();
-
+    const parentPath = original.split("/").slice(0, -1).join("/") || "/";
     const now = Date.now();
 
     const entry: FsEntry = {
       path: original,
-      lookup,
+      lookup: normalizeLookup(original),
       type: "file",
       size: 0,
       createdAt: now,
@@ -365,8 +363,7 @@ export class FileSystemAccess {
     };
 
     this.meta.setEntry(entry);
-
-    this.meta.addChild(parentLookup, lookup);
+    this.meta.addChild(parentPath, original);
 
     (async () => {
       await this.data.write(original, new Blob([]));
@@ -374,28 +371,30 @@ export class FileSystemAccess {
   }
 
   deleteFile(path: string): void {
-    path = normalizePath(path);
-    const entry = this.meta.getEntry(path);
+    const original = normalizePath(path);
+    const entry = this.meta.getEntry(original);
     if (!entry || entry.type !== "file") return;
 
-    const parent = normalizePath(path.split("/").slice(0, -1).join("/") || "/");
-    this.meta.removeChild(parent, path);
-    this.meta.deleteEntry(path);
+    const parent = normalizePath(original.split("/").slice(0, -1).join("/") || "/");
+    this.meta.removeChild(parent, original);
+    this.meta.deleteEntry(original);
     (async () => {
-      await this.data.delete(path);
+      await this.data.delete(entry.path);
     })();
   }
 
   openFile(path: string): FileHandle {
-    path = normalizePath(path);
-    if (!this.exists(path)) {
-      this.createFile(path);
+    let original = normalizePath(path);
+    const entry = this.meta.getEntry(original);
+    if (!entry) {
+      this.createFile(original);
+    } else {
+      original = entry.path;
     }
-    return new FileHandle(this, path);
+    return new FileHandle(this, original);
   }
 
   updateFileMeta(path: string, data: Blob | string): void {
-    path = normalizePath(path);
     const entry = this.meta.getEntry(path);
     if (!entry || entry.type !== "file") return;
     const size =
@@ -406,15 +405,16 @@ export class FileSystemAccess {
   }
 
   rename(oldPath: string, newPath: string): void {
-    oldPath = normalizePath(oldPath);
-    newPath = normalizePath(newPath);
     const entry = this.meta.getEntry(oldPath);
     if (!entry) return;
+
+    const oldDataPath = entry.path;
+    const newDataPath = normalizePath(newPath);
 
     this.meta.renamePath(oldPath, newPath);
     if (entry.type === "file") {
       (async () => {
-        await this.data.rename(oldPath, newPath);
+        await this.data.rename(oldDataPath, newDataPath);
       })();
     }
   }
