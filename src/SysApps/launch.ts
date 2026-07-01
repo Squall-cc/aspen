@@ -1,7 +1,7 @@
 import { launch } from "../Apis/Launcher";
 import { setContent } from "../Core/windowhelpers";
 
-export default function run(uuid: symbol) {
+export default function run(hwnd: symbol) {
   const container = document.createElement("div");
   container.style.display = "flex";
   container.style.flexDirection = "column";
@@ -16,5 +16,5 @@ export default function run(uuid: symbol) {
   container.appendChild(textarea);
   container.appendChild(runbtn);
 
-  setContent(uuid, container);
+  setContent(hwnd, container);
 }

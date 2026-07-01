@@ -1,6 +1,6 @@
 import type { JSX } from "solid-js";
 import { createStore } from "solid-js/store";
-
+import { ulid } from "ulid";
 import { clearWindowCanvas } from "./overlay";
 
 // todo: debug window dragging resizing bottom right
@@ -133,7 +133,7 @@ export function spawn(title: string = "window", run?: (hwnd: symbol) => void) {
     z: ++topZ,
     minimized: false,
   });
-  windowsmap.set(s, crypto.randomUUID());
+  windowsmap.set(s, ulid());
   run?.(s);
 }
 

@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "7.css": "^0.21.1",
-    "@awesome.me/webawesome": "^3.9.0",
     "@eslint/js": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.62.1",
@@ -34,6 +33,7 @@
     "eslint-plugin-unused-imports": "^4.4.1",
     "libcurl.js": "^0.7.4",
     "prettier": "^3.9.4",
-    "solid-js": "^1.9.13"
+    "solid-js": "^1.9.13",
+    "ulid": "^3.0.2"
   }
 }
