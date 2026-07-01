@@ -211,13 +211,10 @@ export class FileHandle {
     this.path = normalizePath(path);
   }
 
-  read(): void {
-    (async () => {
-      const blob = await this.fs.data.read(this.path);
-      if (!blob) return;
-      const text = await blob.text();
-      console.log(text);
-    })();
+  async read(): Promise<string | undefined> {
+    const blob = await this.fs.data.read(this.path);
+    if (!blob) return undefined;
+    return blob.text();
   }
 
   write(data: string | Blob): void {
@@ -348,7 +345,7 @@ export class FileSystemAccess {
   }
 
   createFile(path: string): void {
-    const original = path;
+    const original = normalizePath(path);
     const lookup = path.toLowerCase();
 
     if (this.exists(lookup)) return;
@@ -372,7 +369,7 @@ export class FileSystemAccess {
     this.meta.addChild(parentLookup, lookup);
 
     (async () => {
-      await this.data.write(lookup, new Blob([]));
+      await this.data.write(original, new Blob([]));
     })();
   }
 

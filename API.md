@@ -118,7 +118,7 @@ src/Apis/RegistryApi.ts
 src/Apis/FileSystemApi.ts
 
 ### FileHandle
-- `read()` — takes: nothing, returns: `void`
+- `read()` — takes: nothing, returns: `Promise<string | undefined>`
 - `write(data)` — takes: `string | Blob`, returns: `void`
 - `append(data)` — takes: `string | Blob`, returns: `void`
 - `delete()` — takes: nothing, returns: `void`
