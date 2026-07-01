@@ -1,5 +1,7 @@
 # api function listing
 
+btw writing this shi is pmo so i might just ask ai
+
 ## WindowHandle
 class — src/Apis/iSApi.ts
 
@@ -153,9 +155,14 @@ evals `code` in global scope (so it can call `spawn`, `window.__API`, etc., like
 takes: `string`, returns: `Promise<void>`
 reads the file at `path` from the VFS and passes its contents to `launch`
 
+### launchhtml(title, html)
+takes: `string, string`, returns: `void`
+spawns a window and sets its content to the given raw HTML string
+
 ## spawn
 src/Core/windowhelpers.ts (reexported from src/Apis/iSApi.ts)
 takes: `string = "window", (hwnd: symbol) => void | undefined`, returns: `void`
 
 # usage from custom app
 spawn("hi", (hwnd) => {//your code here});
+launcher.launchhtml("hi", "<h1>hello</h1>");
