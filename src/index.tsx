@@ -3,6 +3,7 @@ import { render } from "solid-js/web";
 import "solid-devtools";
 import * as fileSystemApi from "./Apis/FileSystemApi";
 import { WindowHandle, spawn } from "./Apis/iSApi";
+import * as launcher from "./Apis/Launcher";
 import * as registryApi from "./Apis/RegistryApi";
 import App from "./Core/App";
 import * as systems from "./Core/systems";
@@ -14,6 +15,7 @@ declare global {
       systems: typeof systems;
       registry: typeof registryApi;
       fs: typeof fileSystemApi;
+      launcher: typeof launcher;
       version: string;
       spawn: typeof spawn;
     };
@@ -27,6 +29,7 @@ const API = {
   systems,
   registry: registryApi,
   fs: fileSystemApi,
+  launcher,
   version: "1.0.0",
   spawn,
 };

@@ -6,6 +6,7 @@ import { For } from "solid-js";
 import draw from "../SysApps/draw";
 import hello from "../SysApps/hello";
 import hi from "../SysApps/hi";
+import launch from "../SysApps/launch";
 
 import { spawn } from "./windowhelpers";
 
@@ -13,6 +14,7 @@ const apps = new Map([
   ["hi", hi],
   ["hello", hello],
   ["draw", draw],
+  ["launch", launch],
 ]);
 
 const Launcher: Component = () => {

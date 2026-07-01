@@ -142,6 +142,17 @@ src/Apis/FileSystemApi.ts
 - `updateFileMeta(path, data)` — takes: `string, Blob | string`, returns: `void`
 - `rename(oldPath, newPath)` — takes: `string, string`, returns: `void`
 
+## launcher
+src/Apis/Launcher.ts
+
+### launch(code)
+takes: `string`, returns: `void`
+evals `code` in global scope (so it can call `spawn`, `window.__API`, etc., like a custom app)
+
+### launchfromfile(path)
+takes: `string`, returns: `Promise<void>`
+reads the file at `path` from the VFS and passes its contents to `launch`
+
 ## spawn
 src/Core/windowhelpers.ts (reexported from src/Apis/iSApi.ts)
 takes: `string = "window", (hwnd: symbol) => void | undefined`, returns: `void`

@@ -334,7 +334,9 @@ export class FileSystemAccess {
     const children = this.meta.listChildren(original);
     if (children.length > 0) return;
 
-    const parent = normalizePath(original.split("/").slice(0, -1).join("/") || "/");
+    const parent = normalizePath(
+      original.split("/").slice(0, -1).join("/") || "/",
+    );
     this.meta.removeChild(parent, original);
     this.meta.deleteEntry(original);
   }
@@ -375,7 +377,9 @@ export class FileSystemAccess {
     const entry = this.meta.getEntry(original);
     if (!entry || entry.type !== "file") return;
 
-    const parent = normalizePath(original.split("/").slice(0, -1).join("/") || "/");
+    const parent = normalizePath(
+      original.split("/").slice(0, -1).join("/") || "/",
+    );
     this.meta.removeChild(parent, original);
     this.meta.deleteEntry(original);
     (async () => {
