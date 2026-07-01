@@ -100,24 +100,24 @@ const Window: ParentComponent<WindowProps> = (props) => {
   function resize(e: MouseEvent) {
     const deltaX = e.clientX - rszisestartX;
     const deltaY = e.clientY - rszisestarty;
-    
+
     const newWidth = Math.max(100, startwidth + deltaX);
     const newHeight = Math.max(100, startheight + deltaY);
-    
+
     windowthingy.style.width = newWidth + "px";
     windowthingy.style.height = newHeight + "px";
-    
+
     // keep window within bounds
     const maxLeft = window.innerWidth - newWidth;
     const maxTop = window.innerHeight - newHeight;
-    
+
     if (windowthingy.offsetLeft > maxLeft) {
       windowthingy.style.left = Math.max(0, maxLeft) + "px";
     }
     if (windowthingy.offsetTop > maxTop) {
       windowthingy.style.top = Math.max(0, maxTop) + "px";
     }
-}
+  }
 
   function resizeUp() {
     document.removeEventListener("mouseup", resizeUp);

@@ -26,5 +26,3 @@ export async function wFetchBlob(url: string) {
   let response = await libcurl.fetch(url);
   return URL.createObjectURL(await response.blob());
 }
-
-

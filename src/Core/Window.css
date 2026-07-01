@@ -17,7 +17,7 @@
 #window .window-body {
   flex: 1;
   box-sizing: border-box;
-  min-height: 0; 
+  min-height: 0;
   overflow: hidden;
 }
 

@@ -9,7 +9,6 @@ import hi from "../SysApps/hi";
 
 import { spawn } from "./windowhelpers";
 
-
 const apps = new Map([
   ["hi", hi],
   ["hello", hello],

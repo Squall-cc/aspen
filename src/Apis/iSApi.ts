@@ -16,7 +16,7 @@ import {
   getSymbolByHWnd,
   getMousePositionRelativeToWindow,
   getCurrentMousePosition,
-  spawn
+  spawn,
 } from "../Core/windowhelpers";
 export * from "../Core/systems";
 export * from "./RegistryApi";
@@ -100,5 +100,4 @@ export class WindowHandle {
   }
 }
 
-
-export {spawn}
+export { spawn };

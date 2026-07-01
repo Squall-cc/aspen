@@ -7,7 +7,6 @@ import * as registryApi from "./Apis/RegistryApi";
 import App from "./Core/App";
 import * as systems from "./Core/systems";
 
-
 declare global {
   interface Window {
     __API: {
@@ -29,13 +28,13 @@ const API = {
   registry: registryApi,
   fs: fileSystemApi,
   version: "1.0.0",
-  spawn
+  spawn,
 };
 
 // make global
 window.__API = API;
 window.WindowHandle = WindowHandle;
-window.spawn = spawn; 
+window.spawn = spawn;
 
 // logging
 if (import.meta.env.DEV) {

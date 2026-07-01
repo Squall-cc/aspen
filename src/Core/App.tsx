@@ -14,7 +14,6 @@ import {
   debug123,
 } from "./windowhelpers";
 
-
 const App: Component = () => {
   let fsacc = new iSApi.FileSystemAccess();
   let listofthingstocreateonstartup = [
