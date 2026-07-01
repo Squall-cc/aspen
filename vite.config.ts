@@ -42,8 +42,8 @@ function browserSubBuildPlugin(): Plugin {
       cloneOrPull(pulsar_repo, pulsar_dir);
       ensureWorkspaces(path.join(pulsar_dir, "package.json"), ["packages/*"]);
       // todo, pnpm support or whatever dave uses
-      execSync("bun install", { cwd: browser_cache, stdio: "inherit" });
-      execSync("bun run build", { cwd: browser_cache, stdio: "inherit" });
+      execSync("npm install", { cwd: browser_cache, stdio: "inherit" });
+      execSync("npm run build", { cwd: browser_cache, stdio: "inherit" });
 
       const srcDist = path.join(browser_cache, "dist");
       const destDist = path.resolve(import.meta.dirname, "dist", "browser");

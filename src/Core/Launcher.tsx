@@ -3,6 +3,7 @@ import "./Launcher.css";
 import type { Component } from "solid-js";
 import { For } from "solid-js";
 
+import browser from "../SysApps/browser";
 import draw from "../SysApps/draw";
 import hello from "../SysApps/hello";
 import hi from "../SysApps/hi";
@@ -15,6 +16,7 @@ const apps = new Map([
   ["hello", hello],
   ["draw", draw],
   ["launch", launch],
+  ["browser", browser],
 ]);
 
 const Launcher: Component = () => {
