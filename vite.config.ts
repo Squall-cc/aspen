@@ -1,10 +1,13 @@
+// this file is NOT written by me
+// ai slop
+
 import { execSync } from "node:child_process";
 import {
   createReadStream,
   cpSync,
   existsSync,
   readFileSync,
-  rmSync,
+  renameSync,
   statSync,
   writeFileSync,
 } from "node:fs";
@@ -61,6 +64,16 @@ function buildBrowser() {
   execSync("bun run build", { cwd: browser_cache, stdio: "inherit" });
 }
 
+// browser's own index.html would collide with our root index.html once
+// merged into the same dist, so it gets renamed to browser.html first.
+function ensureBrowserHtmlName(distDir: string) {
+  const index = path.join(distDir, "index.html");
+  const renamed = path.join(distDir, "browser.html");
+  if (!existsSync(renamed) && existsSync(index)) {
+    renameSync(index, renamed);
+  }
+}
+
 function browserSubBuildPlugin(): Plugin {
   return {
     name: "browser-sub-build",
@@ -69,14 +82,15 @@ function browserSubBuildPlugin(): Plugin {
       if (!existsSync(browserDist)) {
         buildBrowser();
       }
+      ensureBrowserHtmlName(browserDist);
 
-      server.middlewares.use("/browser", (req, res) => {
-        let urlPath = (req.url || "/").split("?")[0];
-        if (urlPath === "/" || urlPath === "") urlPath = "/index.html";
+      server.middlewares.use((req, res, next) => {
+        const urlPath = (req.url || "/").split("?")[0];
+        if (urlPath === "/" || urlPath === "/index.html") return next();
 
-        let filePath = path.join(browserDist, urlPath);
+        const filePath = path.join(browserDist, urlPath);
         if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
-          filePath = path.join(browserDist, "index.html");
+          return next();
         }
 
         res.setHeader(
@@ -90,10 +104,10 @@ function browserSubBuildPlugin(): Plugin {
       buildBrowser();
 
       const srcDist = path.join(browser_cache, "dist");
-      const destDist = path.resolve(import.meta.dirname, "dist", "browser");
+      ensureBrowserHtmlName(srcDist);
 
-      rmSync(destDist, { recursive: true, force: true });
-      cpSync(srcDist, destDist, { recursive: true });
+      const destRoot = path.resolve(import.meta.dirname, "dist");
+      cpSync(srcDist, destRoot, { recursive: true });
     },
   };
 }
